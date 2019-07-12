@@ -30,6 +30,8 @@ public class InvoiceItemDaoJdbsTemplateImpl implements InvoiceItemDao {
     private static final String UPDATE_INVOICE_ITEM_SQL =
             "update invoice set invoice_id = ?, item_id, quantity = ?, unit_rate = ?, discount = ?, where invoice_item_id = ?";
 
+    private static final String FIND_INVOICE_ITEM_BY_INVOICE_ID =
+            "select * from invoice_item where invoice_id = ?";
 
 
     private JdbcTemplate jdbcTemplate;
@@ -97,6 +99,20 @@ public class InvoiceItemDaoJdbsTemplateImpl implements InvoiceItemDao {
     }
 
 
+    // Added this one to allow to search for InvoiceItem by Invoice_id
+    @Override
+    public List<InvoiceItem> getInvoiceItemByInvoice(int id) {
+
+        try {
+
+            return jdbcTemplate.query(FIND_INVOICE_ITEM_BY_INVOICE_ID, this::mapRowToInvoiceItem, id);
+
+        } catch (EmptyResultDataAccessException e) {
+            // if nothing is returned just catch the exception and return null
+            return null;
+        }
+
+    }
 
     // Helper methods
     private InvoiceItem mapRowToInvoiceItem(ResultSet rs, int rowNum) throws SQLException {
