@@ -52,7 +52,7 @@ Main
 
 
     Service
-        SeviceLayer,
+        SeviceLayer, Maria
 
     ViewModel
         ViewModel  // what will this model look like, Jordan
